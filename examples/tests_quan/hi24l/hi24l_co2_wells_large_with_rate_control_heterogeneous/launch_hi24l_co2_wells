@@ -1,0 +1,8 @@
+#!/bin/csh
+#SBATCH -N 256
+#SBATCH -t 04:40:00
+#SBATCH -p pbatch
+
+# Run info and srun job launch
+srun -n 256 /p/lscratchh/hamon1/GEOSX/build-quartz-gcc@8.1.0-release/bin/geosx --input hi24l_co2_wells.xml  
+echo 'Done'
