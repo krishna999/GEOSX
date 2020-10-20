@@ -41,6 +41,11 @@ FluxApproximationBase::FluxApproximationBase( string const & name, Group * const
     setInputFlag( InputFlags::REQUIRED )->
     setDescription( "Name of coefficient field" );
 
+  registerWrapper( viewKeyStruct::mechanicalStabCoefString, &m_mechanicalStabCoef )->
+    setInputFlag( InputFlags::OPTIONAL )->
+    setApplyDefaultValue( 0.0 )->
+    setDescription( "Value of the (currently uniform) stabilization coefficient" );
+
   registerWrapper( viewKeyStruct::targetRegionsString, &m_targetRegions )->
     setInputFlag( InputFlags::OPTIONAL )->
     setDescription( "List of regions to build the stencil for" );

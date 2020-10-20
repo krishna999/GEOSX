@@ -175,6 +175,9 @@ public:
     static constexpr auto fieldNameString             = "fieldName";
     /// The key for coefficientName
     static constexpr auto coeffNameString             = "coefficientName";
+    /// The key for mechanical stabilization coefficient
+    static constexpr auto mechanicalStabCoefString    = "mechanicalStabCoefficient";
+
     /// The key for targetRegions
     static constexpr auto targetRegionsString         = "targetRegions";
     /// The key for areaRelTol
@@ -254,6 +257,9 @@ protected:
 
   /// name of the coefficient field
   string m_coeffName;
+
+  /// coefficient used for stabilization
+  real64 m_mechanicalStabCoef;
 
   /// names of target regions to build the stencil for
   string_array m_targetRegions;
