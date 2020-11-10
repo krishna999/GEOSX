@@ -80,7 +80,7 @@ if (EXISTS ${ATK_DIR})
         endif()
     endif()
 
-    blt_import_library (NAME axom
+    blt_patch_target (NAME axom
                           INCLUDES ${ATK_INCLUDE_DIRS}
                           LIBRARIES axom
                           TREAT_INCLUDES_AS_SYSTEM ON)

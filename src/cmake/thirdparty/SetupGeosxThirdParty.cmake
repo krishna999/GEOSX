@@ -16,17 +16,17 @@ endif()
 if (EXISTS ${CONDUIT_DIR})
   message(STATUS "CONDUIT_DIR = ${CONDUIT_DIR}" )
   include( cmake/thirdparty/FindConduit.cmake )
-  blt_import_library( NAME conduit
+  blt_patch_target ( NAME conduit
                         INCLUDES ${CONDUIT_INCLUDE_DIRS} 
                         LIBRARIES  conduit
                         TREAT_INCLUDES_AS_SYSTEM ON )
 
-  blt_import_library( NAME conduit_blueprint
+  blt_patch_target( NAME conduit_blueprint
                         INCLUDES ${CONDUIT_INCLUDE_DIRS}
                         LIBRARIES conduit_blueprint
                         TREAT_INCLUDES_AS_SYSTEM ON )
 
-  blt_import_library( NAME conduit_relay
+  blt_patch_target( NAME conduit_relay
                         INCLUDES ${CONDUIT_INCLUDE_DIRS}
                         LIBRARIES conduit_relay
                         TREAT_INCLUDES_AS_SYSTEM ON )
@@ -189,7 +189,7 @@ if(ENABLE_CALIPER)
     find_package(adiak REQUIRED
                  PATHS ${ADIAK_DIR}/lib/cmake/adiak)
 
-    blt_import_library(NAME adiak
+    blt_patch_target(NAME adiak
                          INCLUDES ${adiak_INCLUDE_DIRS}
                          LIBRARIES ${adiak_LIBRARIES}
                          TREAT_INCLUDES_AS_SYSTEM ON)
@@ -211,7 +211,7 @@ if(ENABLE_CALIPER)
         set(caliper_LIBRARIES caliper)
     endif()
 
-    blt_import_library(NAME caliper
+    blt_patch_target(NAME caliper
                          INCLUDES ${caliper_INCLUDE_PATH}
                          LIBRARIES ${caliper_LIBRARIES}
                          TREAT_INCLUDES_AS_SYSTEM ON)
