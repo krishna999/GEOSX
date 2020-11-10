@@ -39,7 +39,7 @@ if (EXISTS ${CHAI_DIR})
         message(FATAL_ERROR "CHAI not found in ${CHAI_DIR}. Maybe you need to build it")
     endif()
 
-    blt_register_library( NAME chai
+    blt_import_library( NAME chai
                           INCLUDES ${CHAI_INCLUDE_DIRS}
                           LIBRARIES ${CHAI_LIBRARY}
                           TREAT_INCLUDES_AS_SYSTEM ON )

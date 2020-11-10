@@ -16,17 +16,17 @@ endif()
 if (EXISTS ${CONDUIT_DIR})
   message(STATUS "CONDUIT_DIR = ${CONDUIT_DIR}" )
   include( cmake/thirdparty/FindConduit.cmake )
-  blt_register_library( NAME conduit
+  blt_import_library( NAME conduit
                         INCLUDES ${CONDUIT_INCLUDE_DIRS} 
                         LIBRARIES  conduit
                         TREAT_INCLUDES_AS_SYSTEM ON )
 
-  blt_register_library( NAME conduit_blueprint
+  blt_import_library( NAME conduit_blueprint
                         INCLUDES ${CONDUIT_INCLUDE_DIRS}
                         LIBRARIES conduit_blueprint
                         TREAT_INCLUDES_AS_SYSTEM ON )
 
-  blt_register_library( NAME conduit_relay
+  blt_import_library( NAME conduit_relay
                         INCLUDES ${CONDUIT_INCLUDE_DIRS}
                         LIBRARIES conduit_relay
                         TREAT_INCLUDES_AS_SYSTEM ON )
@@ -63,7 +63,7 @@ endif()
 
 if (HDF5_DIR)
   include(cmake/thirdparty/FindHDF5.cmake)
-  blt_register_library(NAME hdf5
+  blt_import_library(NAME hdf5
                        INCLUDES ${HDF5_INCLUDE_DIRS}
                        LIBRARIES ${HDF5_LIBRARIES} dl
                        TREAT_INCLUDES_AS_SYSTEM ON )
@@ -86,7 +86,7 @@ include(${CMAKE_SOURCE_DIR}/cmake/thirdparty/FindSilo.cmake)
 if (NOT SILO_FOUND)
     message(FATAL_ERROR "SILO not found in ${SILO_DIR}. Maybe you need to build it")
 endif()
-blt_register_library( NAME silo
+blt_import_library( NAME silo
                       INCLUDES ${SILO_INCLUDE_DIRS}
                       LIBRARIES ${SILO_LIBRARY}
                       TREAT_INCLUDES_AS_SYSTEM ON
@@ -167,7 +167,7 @@ if (NOT FPARSER_FOUND)
     message(STATUS "FPARSER not found in ${FPARSER_DIR}. Maybe you need to build it")
 endif()
 
-blt_register_library( NAME fparser
+blt_import_library( NAME fparser
                       INCLUDES ${FPARSER_INCUDE_DIRS} 
                       LIBRARIES ${FPARSER_LIBRARY}
                       TREAT_INCLUDES_AS_SYSTEM ON )
@@ -189,7 +189,7 @@ if(ENABLE_CALIPER)
     find_package(adiak REQUIRED
                  PATHS ${ADIAK_DIR}/lib/cmake/adiak)
 
-    blt_register_library(NAME adiak
+    blt_import_library(NAME adiak
                          INCLUDES ${adiak_INCLUDE_DIRS}
                          LIBRARIES ${adiak_LIBRARIES}
                          TREAT_INCLUDES_AS_SYSTEM ON)
@@ -211,7 +211,7 @@ if(ENABLE_CALIPER)
         set(caliper_LIBRARIES caliper)
     endif()
 
-    blt_register_library(NAME caliper
+    blt_import_library(NAME caliper
                          INCLUDES ${caliper_INCLUDE_PATH}
                          LIBRARIES ${caliper_LIBRARIES}
                          TREAT_INCLUDES_AS_SYSTEM ON)
@@ -259,7 +259,7 @@ if (EXISTS ${MATHPRESSO_DIR})
         message(FATAL_ERROR "MATHPRESSO not found in ${MATHPRESSO_DIR}. Maybe you need to build it")
     endif()
 
-    blt_register_library( NAME mathpresso
+    blt_import_library( NAME mathpresso
                         INCLUDES ${MATHPRESSO_INCLUDE_DIRS}
                         LIBRARIES ${MATHPRESSO_LIBRARY}
                         TREAT_INCLUDES_AS_SYSTEM ON )
@@ -315,7 +315,7 @@ if (NOT PUGIXML_FOUND)
     message(FATAL_ERROR "PUGIXML not found in ${PUGIXML_DIR}. Maybe you need to build it")
 endif()
 
-blt_register_library( NAME pugixml
+blt_import_library( NAME pugixml
                       INCLUDES ${PUGIXML_INCLUDE_DIRS}
                       LIBRARIES ${PUGIXML_LIBRARY}
                       TREAT_INCLUDES_AS_SYSTEM ON )
@@ -330,12 +330,12 @@ set( thirdPartyLibs ${thirdPartyLibs} pugixml )
 
 include( cmake/thirdparty/FindMathLibraries.cmake )
 
-blt_register_library( NAME blas
+blt_import_library( NAME blas
                       TREAT_INCLUDES_AS_SYSTEM ON
                       LIBRARIES ${BLAS_LIBRARIES}
                       )
 
-blt_register_library( NAME lapack
+blt_import_library( NAME lapack
                       DEPENDS_ON blas
                       TREAT_INCLUDES_AS_SYSTEM ON
                       LIBRARIES ${LAPACK_LIBRARIES}
@@ -347,7 +347,7 @@ blt_register_library( NAME lapack
 if (ENABLE_MKL)
     message( STATUS "setting up Intel MKL" )
 
-    blt_register_library( NAME mkl
+    blt_import_library( NAME mkl
                           INCLUDES ${MKL_INCLUDE_DIRS}
                           LIBRARIES ${MKL_LIBRARIES}
                           TREAT_INCLUDES_AS_SYSTEM ON )
@@ -361,7 +361,7 @@ if (ENABLE_MKL)
 elseif (ENABLE_ESSL)
     message( STATUS "setting up IBM ESSL" )
 
-    blt_register_library( NAME essl
+    blt_import_library( NAME essl
                           INCLUDES ${ESSL_INCLUDE_DIRS}
                           LIBRARIES ${ESSL_LIBRARIES}
                           TREAT_INCLUDES_AS_SYSTEM ON )
@@ -392,7 +392,7 @@ if( ENABLE_TRILINOS )
   message(STATUS "Trilinos_LIBRARIES = ${Trilinos_LIBRARIES}")
   message(STATUS "Trilinos_INCLUDE_DIRS = ${Trilinos_INCLUDE_DIRS}")
   
-  blt_register_library( NAME trilinos
+  blt_import_library( NAME trilinos
                         DEPENDS_ON ${TRILINOS_DEPENDS}
                         INCLUDES ${Trilinos_INCLUDE_DIRS} 
                         LIBRARIES ${Trilinos_LIBRARIES}
@@ -433,7 +433,7 @@ if( ENABLE_METIS )
         message(FATAL_ERROR "METIS not found in ${METIS_DIR}. Maybe you need to build it")
     endif()
 
-    blt_register_library( NAME metis
+    blt_import_library( NAME metis
                             INCLUDES ${METIS_INCLUDE_DIRS} 
                 LIBRARIES ${METIS_LIBRARY}
                         TREAT_INCLUDES_AS_SYSTEM ON )
@@ -475,7 +475,7 @@ if( ENABLE_PARMETIS )
         message(FATAL_ERROR "PARMETIS not found in ${PARMETIS_DIR}. Maybe you need to build it")
     endif()
 
-    blt_register_library( NAME parmetis
+    blt_import_library( NAME parmetis
                           INCLUDES ${PARMETIS_INCLUDE_DIRS} 
                           LIBRARIES ${PARMETIS_LIBRARY}
                           TREAT_INCLUDES_AS_SYSTEM ON )
@@ -517,7 +517,7 @@ if( ENABLE_SUPERLU_DIST)
         message(FATAL_ERROR "SUPERLU_DIST not found in ${SUPERLU_DIST_DIR}. Maybe you need to build it")
     endif()
 
-    blt_register_library( NAME superlu_dist
+    blt_import_library( NAME superlu_dist
                           DEPENDS_ON parmetis metis lapack blas
                           INCLUDES ${SUPERLU_DIST_INCLUDE_DIRS} 
                           LIBRARIES ${SUPERLU_DIST_LIBRARY}
@@ -565,7 +565,7 @@ if( ENABLE_HYPRE )
         list( APPEND HYPRE_DEPENDS "superlu_dist" )
     endif()
 
-    blt_register_library( NAME hypre
+    blt_import_library( NAME hypre
                           DEPENDS_ON ${HYPRE_DEPENDS}
                           INCLUDES ${HYPRE_INCLUDE_DIRS}
                           LIBRARIES ${HYPRE_LIBRARY}
@@ -626,7 +626,7 @@ if( ENABLE_PETSC )
     message( STATUS "Petsc_LIBRARIES = ${Petsc_LIBRARIES}" )
   
   
-    blt_register_library( NAME petsc
+    blt_import_library( NAME petsc
                           INCLUDES ${Petsc_INCLUDE_DIRS} 
                           LIBRARIES ${Petsc_LIBRARIES}
                           TREAT_INCLUDES_AS_SYSTEM ON )
@@ -644,7 +644,7 @@ if( ENABLE_VTK )
   message( STATUS "VTK_INCLUDE_DIRS = ${VTK_INCLUDE_DIRS}" )
   message( STATUS "VTK_LIBRARIES = ${VTK_LIBRARIES}" )
 
-  blt_register_library( NAME vtk
+  blt_import_library( NAME vtk
                         LIBRARIES ${VTK_LIBRARIES}
                         TREAT_INCLUDES_AS_SYSTEM ON )
   set( thirdPartyLibs ${thirdPartyLibs} vtk )  
@@ -686,7 +686,7 @@ if( ENABLE_SUITESPARSE )
     
     set( SUITESPARSE_DEPENDS "blas;lapack" )
 
-    blt_register_library( NAME suitesparse
+    blt_import_library( NAME suitesparse
                           DEPENDS_ON ${SUITESPARSE_DEPENDS}
                           INCLUDES ${SUITESPARSE_INCLUDE_DIRS}
                           LIBRARIES ${SUITESPARSE_LIBRARY}
