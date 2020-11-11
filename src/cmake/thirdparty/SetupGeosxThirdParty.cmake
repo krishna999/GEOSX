@@ -433,7 +433,7 @@ if( ENABLE_METIS )
         message(FATAL_ERROR "METIS not found in ${METIS_DIR}. Maybe you need to build it")
     endif()
 
-    blt_import_library( NAME metis
+    blt_register_library( NAME metis
                             INCLUDES ${METIS_INCLUDE_DIRS} 
                 LIBRARIES ${METIS_LIBRARY}
                         TREAT_INCLUDES_AS_SYSTEM ON )
@@ -517,7 +517,7 @@ if( ENABLE_SUPERLU_DIST)
         message(FATAL_ERROR "SUPERLU_DIST not found in ${SUPERLU_DIST_DIR}. Maybe you need to build it")
     endif()
 
-    blt_import_library( NAME superlu_dist
+    blt_register_library( NAME superlu_dist
                           DEPENDS_ON parmetis metis lapack blas
                           INCLUDES ${SUPERLU_DIST_INCLUDE_DIRS} 
                           LIBRARIES ${SUPERLU_DIST_LIBRARY}
@@ -560,12 +560,12 @@ if( ENABLE_HYPRE )
         message(FATAL_ERROR "HYPRE not found in ${HYPRE_DIR}. Maybe you need to build it")
     endif()
     
-    set( HYPRE_DEPENDS "blas;lapack" )
+    set( HYPRE_DEPENDS blas lapack )
     if( ENABLE_SUPERLU_DIST )
-        list( APPEND HYPRE_DEPENDS "superlu_dist" )
+        set( HYPRE_DEPENDS ${HYPRE_DEPENDS} superlu_dist )
     endif()
 
-    blt_import_library( NAME hypre
+    blt_register_library( NAME hypre
                           DEPENDS_ON ${HYPRE_DEPENDS}
                           INCLUDES ${HYPRE_INCLUDE_DIRS}
                           LIBRARIES ${HYPRE_LIBRARY}
