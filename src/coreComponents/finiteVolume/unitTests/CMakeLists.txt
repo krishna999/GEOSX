@@ -7,10 +7,6 @@ set( gtest_geosx_tests
      testMimeticInnerProducts.cpp
    )
 
-if( BUILD_OBJ_LIBS )
-  message(FATAL_ERROR "BUILDING OBJECT_LIBS")
-endif()
-
 set( dependencyList gtest )
 
 if ( GEOSX_BUILD_SHARED_LIBS )

@@ -50,7 +50,7 @@ set( linearAlgebra_sources
      DofManager.cpp )
 
 if( BUILD_OBJ_LIBS )
-  set( dependencyList common blas lapack RAJA managers)
+  set( dependencyList blas lapack RAJA lvarray pugixml conduit::conduit )
 else()
   set( dependencyList common blas lapack RAJA )
 endif()
@@ -161,6 +161,8 @@ blt_add_library( NAME                  linearAlgebra
                )
 
 target_include_directories( linearAlgebra PUBLIC ${CMAKE_CURRENT_LIST_DIR} )
+target_include_directories( linearAlgebra PUBLIC ${CMAKE_BINARY_DIR}/include )
+target_include_directories( linearAlgebra PUBLIC ${CMAKE_SOURCE_DIR}/coreComponents )
 
 geosx_add_code_checks( PREFIX linearAlgebra )
 
