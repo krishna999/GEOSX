@@ -342,8 +342,6 @@ void HypreMatrix::close()
   m_assembled = true;
 }
 
-
-
 bool HypreMatrix::created() const
 {
   return m_ij_mat != nullptr;

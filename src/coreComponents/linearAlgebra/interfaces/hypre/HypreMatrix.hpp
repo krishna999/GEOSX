@@ -105,7 +105,7 @@ public:
   using MatrixBase::residual;
 
 #if defined(GEOSX_LA_INTERFACE_HYPRE)
-#define OVERRIDE_CREATE
+//#define OVERRIDE_CREATE
 #endif
 
 #if defined(OVERRIDE_CREATE)

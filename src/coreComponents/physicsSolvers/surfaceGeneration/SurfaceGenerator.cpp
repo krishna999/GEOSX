@@ -3863,7 +3863,7 @@ int SurfaceGenerator::CheckOrphanElement ( ElementRegionManager & elementManager
                              GetSubRegion< CellElementSubRegion >( faceToSubRegionMap[iFace][k] );
 
 
-      int nRuptureFace = 0;
+      localIndex nRuptureFace = 0;
       arrayView2d< localIndex > & elementsToFaces = elementSubRegion->faceList();
       for( localIndex a=0; a < elementsToFaces.size( 1 ); ++a )
       {

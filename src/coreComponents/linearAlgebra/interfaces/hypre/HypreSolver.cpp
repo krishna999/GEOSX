@@ -336,8 +336,8 @@ void HypreSolver::solve_krylov( HypreMatrix & mat,
                                 HypreVector & rhs,
                                 DofManager const * const dofManager )
 {
-
   Stopwatch watch;
+
   // Create the preconditioner, but don't compute (this is done by solver setup)
   HyprePreconditioner precond( m_parameters, dofManager );
   precond.create();
