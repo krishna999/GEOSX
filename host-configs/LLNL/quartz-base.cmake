@@ -37,4 +37,6 @@ set(ENABLE_HYPRE ON CACHE BOOL "" FORCE )
 
 set( GEOSX_LOCALINDEX_TYPE "int" CACHE STRING "" FORCE )
 set( GEOSX_GLOBALINDEX_TYPE "long long int" CACHE STRING "" FORCE )
-set( GEOSX_LA_INTERFACE "Hypre" CACHE STRING "Linear algebra interface to use in solvers" FORCE )
+#set( GEOSX_LA_INTERFACE "Hypre" CACHE STRING "Linear algebra interface to use in solvers" FORCE )
+
+include(${CMAKE_CURRENT_LIST_DIR}/../tpls.cmake)

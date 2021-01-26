@@ -8,7 +8,7 @@ ghostRank                 integer_array                                         
 globalToLocalMap          geosx_mapBase< long long, int, std_integral_constant< bool, false > > (no description available)                                
 isExternal                integer_array                                                         (no description available)                                
 localToGlobalMap          globalIndex_array                                                     Array that contains a map from localIndex to globalIndex. 
-location                  r1_array                                                              (no description available)                                
+location                  real64_array2d                                                        (no description available)                                
 numPerforationsGlobal     globalIndex                                                           (no description available)                                
 reservoirElementIndex     integer_array                                                         (no description available)                                
 reservoirElementRegion    integer_array                                                         (no description available)                                
