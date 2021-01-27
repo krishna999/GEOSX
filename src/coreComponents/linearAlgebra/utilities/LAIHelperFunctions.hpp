@@ -127,7 +127,7 @@ void SeparateComponentFilter( MATRIX const & src,
   const localIndex maxDstEntries = maxEntries / dofsPerNode;
 
 
-#if !defined(GEOSX_USE_CUDA) && !defined(GEOSX_LA_INTERFACE_HYPRE)
+#if !defined(GEOSX_USE_CUDA) && defined(GEOSX_LA_INTERFACE_HYPRE)
   dst.createWithLocalSize( localRows, maxEntries, MPI_COMM_WORLD );
   dst.open();
 
