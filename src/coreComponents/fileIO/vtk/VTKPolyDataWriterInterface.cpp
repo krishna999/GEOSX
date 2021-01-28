@@ -43,7 +43,7 @@ namespace vtk
  */
 string GetDataSetFilePath( ElementRegionBaseABC const & er, double time, int rank )
 {
-  return std::to_string( time ) + "/" + stringutilities::PadValue( rank, std::to_string( MpiWrapper::commSize() ).size() ) + "_" + er.name() + ".vtu";
+  return std::to_string( time ) + "/" + stringutilities::PadValue( rank, std::to_string( MpiWrapper::commSize() ).size() ) + "_" + er.getNameMock() + ".vtu";
 }
 
 const std::map< string, int > geosx2VTKCellTypes =
@@ -76,7 +76,7 @@ int ToVTKCellType( const string & elementType )
 void VTKPolyDataWriterInterface::gatherNbElementsInRegion( ElementRegionBaseABC const & er,
                                                            array1d< localIndex > & nbElemsInRegion ) const
 {
-  localIndex nbElems = er.numberOfElements();
+  localIndex nbElems = er.nElementsMock();
   int const mpiSize = MpiWrapper::commSize( MPI_COMM_GEOSX );
   nbElemsInRegion.resize( mpiSize );
   MpiWrapper::gather( &nbElems, 1, nbElemsInRegion.data(), 1, 0, MPI_COMM_GEOSX );
@@ -134,7 +134,7 @@ std::pair< vtkSmartPointer< vtkPoints >, vtkSmartPointer< vtkCellArray > >VTKPol
   points->SetNumberOfPoints( numPoints );
   vtkSmartPointer< vtkCellArray > cellsArray = vtkCellArray::New();
   cellsArray->SetNumberOfCells( esr.nCells() );
-  localIndex const numberOfNodesPerElement = esr.numNodesPerElement();
+  localIndex const numberOfNodesPerElement = esr.nNodesPerElementMock();
   GEOSX_ERROR_IF_NE( numberOfNodesPerElement, 2 );
   std::vector< vtkIdType > connectivity( numberOfNodesPerElement );
 
@@ -171,10 +171,10 @@ VTKPolyDataWriterInterface::getSurface( FaceElementSubRegionABC const & esr,
   vtkSmartPointer< vtkCellArray > cellsArray = vtkCellArray::New();
   cellsArray->SetNumberOfCells( esr.nCells() );
   std::unordered_map< localIndex, localIndex > geosx2VTKIndexing;
-  geosx2VTKIndexing.reserve( esr.nCells() * esr.numNodesPerElement() );
+  geosx2VTKIndexing.reserve( esr.nCells() * esr.nNodesPerElementMock() );
   localIndex nodeIndexInVTK = 0;
-  std::vector< vtkIdType > connectivity( esr.numNodesPerElement() );
-  std::vector< int >  vtkOrdering = esr.getVTKNodeOrdering();
+  std::vector< vtkIdType > connectivity( esr.nNodesPerElementMock() );
+  std::vector< int >  vtkOrdering = esr.getVTKNodeOrderingMock();
 
   for( localIndex ei = 0; ei < esr.nCells(); ei++ )
   {
@@ -245,8 +245,8 @@ VTKPolyDataWriterInterface::getVtkCells( CellElementRegionABC const & er ) const
   cellType.reserve( er.getNElementsInCellElementSubRegion() );
   for( const CellElementSubRegionABC & esr: er.getCellElementSubRegions() )
   {
-    std::vector< vtkIdType > connectivity( esr.numNodesPerElement() );
-    std::vector< int > vtkOrdering = esr.getVTKNodeOrdering();
+    std::vector< vtkIdType > connectivity( esr.nNodesPerElementMock() );
+    std::vector< int > vtkOrdering = esr.getVTKNodeOrderingMock();
     int vtkCellType = ToVTKCellType( esr.getElementTypeString() );
     for( localIndex c = 0; c < esr.size(); c++ ) // FIXME size of what?
     {
@@ -255,7 +255,7 @@ VTKPolyDataWriterInterface::getVtkCells( CellElementRegionABC const & er ) const
         connectivity[i] = esr.nodeList( c, vtkOrdering[i] );
       }
       cellType.push_back( vtkCellType );
-      cellsArray->InsertNextCell( esr.numNodesPerElement(), connectivity.data() );
+      cellsArray->InsertNextCell( esr.nNodesPerElementMock(), connectivity.data() );
     }
   }
   return std::make_pair( cellType, cellsArray );
@@ -433,7 +433,7 @@ struct TestMatch
 };
 
 template< class PREDICATE >
-void VTKPolyDataWriterInterface::WriteElementFieldsPredicate( vtkSmartPointer< vtkCellData > const celldata, ElementRegionBaseABC const & er, PREDICATE p ) const
+void VTKPolyDataWriterInterface::writeElementFieldsPredicate( vtkSmartPointer< vtkCellData > const celldata, ElementRegionBaseABC const & er, PREDICATE p ) const
 {
   std::unordered_set< string > allFields;
   for( const auto & esr: er.getElementSubRegions() )
@@ -491,10 +491,10 @@ void VTKPolyDataWriterInterface::writeCellElementRegions( real64 time,
       auto VTKCells = getVtkCells( er );
       ug->SetCells( VTKCells.first.data(), VTKCells.second );
 //      writeElementFields< CellElementSubRegionABC >( ug->GetCellData(), er );
-      WriteElementFieldsPredicate( ug->GetCellData(), er, predicate );
+      writeElementFieldsPredicate( ug->GetCellData(), er, predicate );
 //      writeElementFieldsPredicate( ug->GetCellData(), er, MyMatch< const ElementSubRegionBaseABC, CellElementSubRegionABC > );
       writeNodeFields( ug->GetPointData(), nodeManager );
-      writeUnstructuredGrid( ug, time, er.name() );
+      writeUnstructuredGrid( ug, time, er.getNameMock() );
     }
   }
 }
@@ -514,10 +514,10 @@ void VTKPolyDataWriterInterface::writeWellElementRegions( real64 time, ElementRe
     auto VTKWell = getWell( *esr, nodeManager );
     ug->SetPoints( VTKWell.first );
     ug->SetCells( VTK_LINE, VTKWell.second );
-//    WriteElementFields< WellElementSubRegionABC >( ug->GetCellData(), er );
+//    writeWellElementRegions< WellElementSubRegionABC >( ug->GetCellData(), er );
 //    WriteElementFieldsPredicate( ug->GetCellData(), er, MyMatch< const ElementSubRegionBaseABC, WellElementSubRegionABC > );
     writeElementFields< WellElementSubRegion >( ug->GetCellData(), er );
-    writeUnstructuredGrid( ug, time, er.name() );
+    writeUnstructuredGrid( ug, time, er.getNameMock() );
   } );
 }
 
@@ -556,23 +556,23 @@ void VTKPolyDataWriterInterface::writeSurfaceElementRegions( real64 time,
       auto VTKSurface = getSurface( *esr, nodeManager );
 
       ug->SetPoints( VTKSurface.first );
-      if( esr->numNodesPerElement() == 8 )
+      if( esr->nNodesPerElementMock() == 8 )
       {
         ug->SetCells( VTK_HEXAHEDRON, VTKSurface.second );
       }
-      else if( esr->numNodesPerElement() == 6 )
+      else if( esr->nNodesPerElementMock() == 6 )
       {
         ug->SetCells( VTK_WEDGE, VTKSurface.second );
       }
       else
       {
-        GEOSX_ERROR( "Elements with " << esr->numNodesPerElement() << " nodes can't be output "
-                                      << "in the FaceElementRegion " << er.name() );
+        GEOSX_ERROR( "Elements with " << esr->nNodesPerElementMock() << " nodes can't be output "
+                                      << "in the FaceElementRegion " << er.getNameMock() );
       }
 //      writeElementFields< FaceElementSubRegionABC >( ug->GetCellData(), er );
       writeElementFieldsPredicate( ug->GetCellData(), er, predicate );
     }
-    writeUnstructuredGrid( ug, time, er.name() );
+    writeUnstructuredGrid( ug, time, er.getNameMock() );
   }
 }
 
@@ -586,7 +586,7 @@ void VTKPolyDataWriterInterface::writeVtmFile( real64 time,
   {
     array1d< localIndex > nbElemsInRegion;
     gatherNbElementsInRegion( er, nbElemsInRegion );
-    vtmWriter.addSubBlock( er.catalogName(), er.name() );
+    vtmWriter.addSubBlock( er.getCatalogNameMock(), er.getNameMock() );
     for( int i = 0; i < mpiSize; i++ )
     {
       string const dataSetFile = GetDataSetFilePath( er, time, i );
@@ -594,7 +594,7 @@ void VTKPolyDataWriterInterface::writeVtmFile( real64 time,
       {
         if( mpiRank == 0 )
         {
-          vtmWriter.addDataToSubBlock( er.catalogName(), er.name(), dataSetFile, i );
+          vtmWriter.addDataToSubBlock( er.getCatalogNameMock(), er.getNameMock(), dataSetFile, i );
         }
       }
     }
@@ -687,25 +687,24 @@ void VTKPolyDataWriterInterface::write( real64 time, integer cycle, DomainPartit
   m_previousCycle = cycle;
 }
 
-void VTKPolyDataWriterInterface::Write( real64 time,
+void VTKPolyDataWriterInterface::write( real64 time,
                                         integer cycle,
                                         ElementRegionManagerABC const & elemManager,
                                         NodeManagerABC const & nodeManager )
 {
-  CreateTimeStepSubFolder( time );
-  WriteCellElementRegions( time, elemManager, nodeManager );
-  WriteWellElementRegions( time, elemManager, nodeManager );
-  WriteSurfaceElementRegions( time, elemManager, nodeManager );
-  string vtmPath = GetTimeStepSubFolder( time ) + ".vtm";
+  createTimeStepSubFolder( time );
+  writeCellElementRegions( time, elemManager, nodeManager );
+  writeWellElementRegions( time, elemManager, nodeManager );
+  writeSurfaceElementRegions( time, elemManager, nodeManager );
+  string vtmPath = getTimeStepSubFolder( time ) + ".vtm";
   VTKVTMWriter vtmWriter( vtmPath );
-  WriteVTMFile( time, elemManager, vtmWriter );
+  writeVtmFile( time, elemManager, vtmWriter );
   if( cycle != m_previousCycle )
   {
-    m_pvd.AddData( time, vtmPath );
-    m_pvd.Save();
+    m_pvd.addData( time, vtmPath );
+    m_pvd.save();
   }
   m_previousCycle = cycle;
-
 }
 
 }

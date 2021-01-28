@@ -121,7 +121,7 @@ public:
 
   virtual WellElementSubRegion const * getWellElementSubRegion() const override
   {
-    return GetSubRegion( 0 )->group_cast< WellElementSubRegion const * >();
+    return getSubRegion( 0 )->groupCast< WellElementSubRegion const * >();
   }
 
   ///@}

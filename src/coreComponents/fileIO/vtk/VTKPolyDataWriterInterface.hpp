@@ -112,7 +112,7 @@ public:
    */
   void write( real64 time, integer cycle, DomainPartition const & domain );
 
-  void Write( real64 time,
+  void write( real64 time,
               integer cycle,
               ElementRegionManagerABC const & elemManager,
               NodeManagerABC const & nodeManager );
@@ -187,7 +187,7 @@ private:
    * @return a pair containing a VTKPoints (with the information on the vertices and their coordinates)
    * and a VTKCellArray (with the cell connectivities).
    */
-  std::pair< vtkSmartPointer< vtkPoints >, vtkSmartPointer< vtkCellArray > >getWell( WellElementSubRegionABC const & esr, NodeManagerABC const & nodeManager ) const;
+  std::pair< vtkSmartPointer< vtkPoints >, vtkSmartPointer< vtkCellArray > > getWell( WellElementSubRegionABC const & esr, NodeManagerABC const & nodeManager ) const;
 
   /*!
    * @brief Gets the cell connectivities and the vertices coordinates
@@ -197,8 +197,8 @@ private:
    * @return a pair containing a VTKPoints (with the information on the vertices and their coordinates)
    * and a VTKCellArray (with the cell connectivities).
    */
-  std::pair< vtkSmartPointer< vtkPoints >, vtkSmartPointer< vtkCellArray > >getSurface( FaceElementSubRegionABC const & esr,
-                                                                                        NodeManagerABC const & nodeManager ) const;
+  std::pair< vtkSmartPointer< vtkPoints >, vtkSmartPointer< vtkCellArray > > getSurface( FaceElementSubRegionABC const & esr,
+                                                                                         NodeManagerABC const & nodeManager ) const;
 
   /*!
    * @brief Gets the cell connectivities and the vertices coordinates
@@ -252,7 +252,7 @@ private:
 //  void MyWriteElementFields( vtkSmartPointer< vtkCellData > const celldata, ELEMENT_REGION const & er ) const;
 
   template< class PREDICATE >
-  void WriteElementFieldsPredicate( vtkSmartPointer< vtkCellData > const celldata, ElementRegionBaseABC const & er, PREDICATE p ) const;
+  void writeElementFieldsPredicate( vtkSmartPointer< vtkCellData > const celldata, ElementRegionBaseABC const & er, PREDICATE p ) const;
 
   /*!
    * @brief Writes a field from \p wrapperBase

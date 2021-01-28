@@ -40,7 +40,8 @@ public:
   virtual arrayView2d< real64 const, nodes::REFERENCE_POSITION_USD > referencePosition() const = 0;
   virtual localIndex nPoints() const = 0; //  Business meaning. not sure...
   virtual arrayView2d< real64 const, nodes::REFERENCE_POSITION_USD > embSurfNodesPosition() const = 0;
-  virtual std::list< dataRepository::WrapperBase > getWrappers() const = 0; // FIXME not the proper return type.
+//  virtual std::list< dataRepository::WrapperBase > getWrappers() const = 0; // FIXME not the proper return type.
+  virtual std::list< void * > getWrappers() const = 0; // FIXME not the proper return type.
 };
 
 /**
@@ -429,9 +430,10 @@ public:
     return this->size();
   }
 
-  std::list< dataRepository::WrapperBase > getWrappers() const override
+  std::list< void * > getWrappers() const override
   {
     GEOSX_ERROR("Not implemented!");
+    return std::list< void * >(); // FIXME TODO
   }
 
   /**

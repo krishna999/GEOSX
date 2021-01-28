@@ -21,7 +21,7 @@
 namespace geosx
 {
 
-class CellElementSubRegionABC
+class CellElementSubRegionABC: public ElementSubRegionBaseABC
 {
 public:
 };

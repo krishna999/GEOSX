@@ -30,7 +30,7 @@ class MockElementRegionManager: public ElementRegionManager
 {
 public:
   MOCK_METHOD(
-    (std::list< std::reference_wrapper< const CellElementRegion > >),
+    (std::list< std::reference_wrapper< const CellElementRegionABC > >),
     getCellElementRegions,
     (),
     (const, override)

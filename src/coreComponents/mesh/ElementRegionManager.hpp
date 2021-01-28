@@ -789,9 +789,12 @@ public:
    * @note virtual for testing reasons, we should have an ABC nevertheless
    * @note Will become std::views with CXX20?
    */
-  virtual std::list< std::reference_wrapper< const CellElementRegion > > getCellElementRegions() const override
+  virtual std::list< std::reference_wrapper< const CellElementRegionABC > > getCellElementRegions() const override
   {
-    return this->getElementRegions< CellElementRegion >();
+    const auto & derivs = this->getElementRegions< CellElementRegion >();
+    std::list< std::reference_wrapper< const CellElementRegionABC > > bases( derivs.cbegin(), derivs.cend() );
+    return bases;
+//    return this->getElementRegions< CellElementRegion >();
   }
 
   /**
@@ -801,9 +804,12 @@ public:
  * @note virtual for testing reasons, we should have an ABC nevertheless
  * @note Will become std::views with CXX20?
  */
-  virtual std::list< std::reference_wrapper< const WellElementRegion > > getWellElementRegions() const override
+  virtual std::list< std::reference_wrapper< const WellElementRegionABC > > getWellElementRegions() const override
   {
-    return this->getElementRegions< WellElementRegion >();
+    const auto & derivs = this->getElementRegions< WellElementRegion >();
+    std::list< std::reference_wrapper< const WellElementRegionABC > > bases( derivs.cbegin(), derivs.cend() );
+    return bases;
+//    return this->getElementRegions< WellElementRegion >();
   }
 
   /**
@@ -813,9 +819,12 @@ public:
   * @note virtual for testing reasons, we should have an ABC nevertheless
   * @note Will become std::views with CXX20?
   */
-  virtual std::list< std::reference_wrapper< const SurfaceElementRegion > > getSurfaceElementRegions() const override
+  virtual std::list< std::reference_wrapper< const SurfaceElementRegionABC > > getSurfaceElementRegions() const override
   {
-    return this->getElementRegions< SurfaceElementRegion >();
+    const auto & derivs = this->getElementRegions< SurfaceElementRegion >();
+    std::list< std::reference_wrapper< const SurfaceElementRegionABC > > bases( derivs.cbegin(), derivs.cend() );
+    return bases;
+//    return this->getElementRegions< SurfaceElementRegion >();
   }
 
 

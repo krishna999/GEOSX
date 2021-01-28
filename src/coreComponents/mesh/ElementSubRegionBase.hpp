@@ -35,9 +35,9 @@ class ConstitutiveBase;
 class ElementSubRegionBaseABC
 {
 public:
-  virtual localIndex const & numNodesPerElement() const  = 0;
+  virtual localIndex const & nNodesPerElementMock() const  = 0;
   virtual localIndex nCells() const = 0; // Business meaning
-  virtual std::vector< int > getVTKNodeOrdering() const = 0;
+  virtual std::vector< int > getVTKNodeOrderingMock() const = 0;
 };
 
 /**
@@ -112,7 +112,8 @@ public:
    * @brief Get the number of nodes per element.
    * @return number of nodes per element
    */
-  localIndex const & numNodesPerElement() const override { return m_numNodesPerElement; }
+  localIndex const & numNodesPerElement() const { return m_numNodesPerElement; }
+  localIndex const & nNodesPerElementMock() const override { return m_numNodesPerElement; }
 
   /**
    * @brief Get the number of nodes per element.
@@ -250,7 +251,11 @@ public:
    * @brief Get the VTK ordering for this subregion.
    * @return the VTK node ordering
    */
-  std::vector< int > getVTKNodeOrdering() const override;
+  std::vector< int > getVTKNodeOrdering() const;
+  std::vector< int > getVTKNodeOrderingMock() const override
+  {
+    return this->getVTKNodeOrdering();
+  }
 
   ///@}
 

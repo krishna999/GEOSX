@@ -156,12 +156,12 @@ public:
 
   EmbeddedSurfaceSubRegion const * getEmbeddedSurfaceSubRegion() const override
   {
-    return this->GetSubRegion( 0 )->group_cast< EmbeddedSurfaceSubRegion const * >();
+    return this->getSubRegion( 0 )->groupCast< EmbeddedSurfaceSubRegion const * >();
   }
 
   FaceElementSubRegion const * getFaceElementSubRegion() const override
   {
-    return this->GetSubRegion( 0 )->group_cast< FaceElementSubRegion const * >();
+    return this->getSubRegion( 0 )->groupCast< FaceElementSubRegion const * >();
   }
   ///@}
 

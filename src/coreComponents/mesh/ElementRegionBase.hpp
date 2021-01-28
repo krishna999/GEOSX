@@ -31,9 +31,9 @@ class FaceManager;
 class ElementRegionBaseABC
 {
 public:
-  virtual const string name() const = 0; // TODO preventing naming collision for now
-  virtual const string catalogName() const = 0; // TODO preventing naming collision for now
-  virtual localIndex numberOfElements() const = 0; // TODO preventing naming collision for now
+  virtual const string getNameMock() const = 0; // TODO preventing naming collision for now
+  virtual const string getCatalogNameMock() const = 0; // TODO preventing naming collision for now
+  virtual localIndex nElementsMock() const = 0; // TODO preventing naming collision for now
   // FIXME use pointers instead of reference_wrapper ?
   virtual std::list< std::reference_wrapper< const ElementSubRegionBaseABC > > getElementSubRegions() const = 0;
 };
@@ -59,12 +59,12 @@ public:
    */
   ElementRegionBase() = delete;
 
-  virtual const string name() const override
+  virtual const string getNameMock() const override
   {
     return this->getName();
   }
 
-  virtual const string catalogName() const override
+  virtual const string getCatalogNameMock() const override
   {
     return this->getCatalogName();
   }
@@ -202,7 +202,7 @@ public:
     return numElem;
   }
 
-  virtual localIndex numberOfElements() const override
+  virtual localIndex nElementsMock() const override
   {
     return this->getNumberOfElements<>();
   }
