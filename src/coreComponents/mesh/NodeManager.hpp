@@ -34,6 +34,14 @@ class FaceManager;
 class EdgeManager;
 class ElementRegionManager;
 
+class FieldABC
+{
+public:
+  virtual dataRepository::PlotLevel getPlotLevelMock() const = 0;
+  virtual const string getNameMock() const = 0; // TODO preventing naming collision for now
+  virtual std::type_info const & getTypeIdMock() const = 0;
+};
+
 class NodeManagerABC
 {
 public:
@@ -41,7 +49,8 @@ public:
   virtual localIndex nPoints() const = 0; //  Business meaning. not sure...
   virtual arrayView2d< real64 const, nodes::REFERENCE_POSITION_USD > embSurfNodesPosition() const = 0;
 //  virtual std::list< dataRepository::WrapperBase > getWrappers() const = 0; // FIXME not the proper return type.
-  virtual std::list< void * > getWrappers() const = 0; // FIXME not the proper return type.
+//  virtual std::list< void * > getWrappers() const = 0; // FIXME not the proper return type.
+  virtual std::list< FieldABC * > getFields() const = 0;
 };
 
 /**
@@ -430,10 +439,10 @@ public:
     return this->size();
   }
 
-  std::list< void * > getWrappers() const override
+  std::list< FieldABC * > getFields() const override
   {
     GEOSX_ERROR("Not implemented!");
-    return std::list< void * >(); // FIXME TODO
+    return std::list< FieldABC * >(); // FIXME TODO
   }
 
   /**

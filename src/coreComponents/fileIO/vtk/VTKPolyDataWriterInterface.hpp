@@ -264,7 +264,8 @@ private:
    * @param[in,out] a counter that is incremented each time a value is written. This is useful
    * for CellElementSubRegion.
    */
-  void writeField( WrapperBase const & wrapperBase, vtkSmartPointer< VTKGEOSXData > data, localIndex size, localIndex & count ) const;
+//  void writeField( WrapperBase const & wrapperBase, vtkSmartPointer< VTKGEOSXData > data, localIndex size, localIndex & count ) const;
+  void writeField( FieldABC const & field, vtkSmartPointer< VTKGEOSXData > data, localIndex size, localIndex & count ) const;
 
   /*!
    * @brief Writes an unstructured grid

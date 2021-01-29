@@ -21,9 +21,10 @@
 namespace geosx
 {
 
-class CellElementSubRegionABC: public ElementSubRegionBaseABC
+class CellElementSubRegionABC: public CellBlockABC, public ElementSubRegionBaseABC
 {
 public:
+  virtual localIndex sizeMock() const = 0; // FIXME size of what?
 };
 
 /**
@@ -86,6 +87,10 @@ public:
    */
   void addFracturedElement( localIndex const cellElemIndex,
                             localIndex const embSurfIndex );
+
+  localIndex sizeMock() const override {
+    return size();
+  }
 
   /**
    * @name Overriding packing / Unpacking functions

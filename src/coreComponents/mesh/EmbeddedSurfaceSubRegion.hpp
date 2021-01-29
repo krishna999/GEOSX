@@ -29,7 +29,7 @@
 namespace geosx
 {
 
-class EmbeddedSurfaceSubRegionABC: public ElementSubRegionBaseABC
+class EmbeddedSurfaceSubRegionABC: public SurfaceElementSubRegionABC
 {
 public:
 

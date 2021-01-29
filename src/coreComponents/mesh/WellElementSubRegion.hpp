@@ -25,6 +25,7 @@ namespace geosx
 class WellElementSubRegionABC: public ElementSubRegionBaseABC
 {
 public:
+  virtual InterObjectRelation< array2d< localIndex, cells::NODE_MAP_PERMUTATION > > const & getNodeListMock() const = 0;
 };
 
 /**
@@ -158,6 +159,10 @@ public:
   NodeMapType const & nodeList() const
   {
     return m_toNodesRelation;
+  }
+
+  NodeMapType const & getNodeListMock() const override {
+    return nodeList();
   }
 
   /**

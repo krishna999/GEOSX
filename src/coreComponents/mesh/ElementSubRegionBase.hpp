@@ -38,6 +38,7 @@ public:
   virtual localIndex const & nNodesPerElementMock() const  = 0;
   virtual localIndex nCells() const = 0; // Business meaning
   virtual std::vector< int > getVTKNodeOrderingMock() const = 0;
+  virtual string getElementTypeStringMock() const = 0;
 };
 
 /**
@@ -240,6 +241,7 @@ public:
    * See class FiniteElementBase for possible element type.
    */
   virtual string getElementTypeString() const { return m_elementTypeString; }
+  string getElementTypeStringMock() const override { return getElementTypeString(); }
 
   /**
    * @brief Set the type of element in this subregion.

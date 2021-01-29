@@ -24,7 +24,7 @@
 namespace geosx
 {
 
-class FaceElementSubRegionABC: public ElementSubRegionBaseABC
+class FaceElementSubRegionABC: public SurfaceElementSubRegionABC
 {
 public:
 };
