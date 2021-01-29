@@ -25,6 +25,7 @@
 #include "solid/DamageSpectral.hpp"
 #include "solid/DruckerPrager.hpp"
 #include "solid/DruckerPragerExtended.hpp"
+#include "solid/ModifiedCamClayExtended.hpp"
 #include "solid/ElasticIsotropic.hpp"
 #include "solid/ElasticTransverseIsotropic.hpp"
 #include "solid/PoroElastic.hpp"
@@ -85,6 +86,10 @@ struct ConstitutivePassThru< SolidBase >
     else if( dynamic_cast< DruckerPrager * >( constitutiveRelation ) )
     {
       lambda( static_cast< DruckerPrager * >( constitutiveRelation) );
+    }
+    else if( dynamic_cast< ModifiedCamClayExtended * >( constitutiveRelation ) )
+    {
+      lambda( static_cast< ModifiedCamClayExtended * >( constitutiveRelation) );
     }
     else if( dynamic_cast< ElasticIsotropic * >( constitutiveRelation ) )
     {

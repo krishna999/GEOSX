@@ -86,7 +86,7 @@ public:
   ModifiedCamClayExtendedUpdates & operator=( ModifiedCamClayExtendedUpdates && ) =  delete;
 
   /// Use the uncompressed version of the stiffness bilinear form
-  using DiscretizationOps = SolidModelDiscretizationOpsFullyAnisotroipic; // TODO: typo in anistropic (fix in DiscOps PR)
+  using DiscretizationOps = SolidModelDiscretizationOpsFullyAnisotroipic;
 
   // Bring in base implementations to prevent hiding warnings
   using ElasticIsotropicUpdates::smallStrainUpdate;
@@ -320,8 +320,6 @@ void ModifiedCamClayExtendedUpdates::smallStrainUpdate( localIndex const k,
   // note: if trialQ = 0, we will get a divide by zero error below,
   // but this is an unphysical (zero-strength) state anyway
 
-  //TODO to generalize
-
   LvArray::tensorOps::fill< 6, 6 >( stiffness, 0 );
 
   real64 c1 = 2 * m_shearModulus[k] * solution[1] / trialQ;
@@ -351,6 +349,39 @@ void ModifiedCamClayExtendedUpdates::smallStrainUpdate( localIndex const k,
     }
   }
 
+  if(k==0)
+  {
+    
+
+    // comparison with zhang 1994, appendixes A, B
+    real64 PP = FdF[2];
+    real64 QQ = FdF[1];
+    real64 A11 = PP;
+    real64 A12 = QQ;
+    real64 A21 = 0.;
+    real64 A22 = 0.;
+
+    real64 B11 = 0.;
+    real64 B12 = 0.;
+    real64 B21 = QQ/3.;
+    real64 B22 = -PP;
+
+    real64 KK = m_bulkModulus[k];
+    real64 GG = m_shearModulus[k];
+
+    real64 Delta = (A11 + 3. * KK * B11) * (A22 + 3. * GG * B22) - (A12 + 3. * GG * B12) * (A21 + 3. * KK * B21);
+
+    //real64 C11 = ((A22 + 3. * GG * B22)*B11 - (A12 + 3. * GG * B12)*B21) / Delta;
+    //real64 C21 = ((A11 + 3. * KK * B11)*B21 - (A21 + 3. * KK * B21)*B11) / Delta;
+    real64 C12 = ((A22 + 3. * GG * B22)*B12 - (A12 + 3. * GG * B12)*B22) / Delta;
+    //real64 C22 = ((A11 + 3. * KK * B11)*B22 - (A21 + 3. * KK * B21)*B12) / Delta;
+
+    real64 d3 = -2.*GG*KK*C12;//must equal to c3
+
+    std::cout <<"c3 = " << c3 << std::endl;
+    std::cout <<"d3 = " << d3 << std::endl;
+
+  }
   // save new stress and return
   saveStress( k, q, stress );
   return;
@@ -373,7 +404,7 @@ void ModifiedCamClayExtendedUpdates::smallStrainUpdate( localIndex const k,
 /**
  * @class ModifiedCamClayExtended
  *
- * Drucker-Prager material model.
+ * Modified Cam-Clay extended material model.
  */
 class ModifiedCamClayExtended : public ElasticIsotropic
 {
