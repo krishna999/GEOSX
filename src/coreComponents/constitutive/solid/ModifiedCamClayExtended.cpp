@@ -36,6 +36,7 @@ ModifiedCamClayExtended::ModifiedCamClayExtended( std::string const & name, Grou
   m_newCohesion(),
   m_oldCohesion()
 {
+
   // register default values
 
   registerWrapper( viewKeyStruct::defaultFrictionAngleString, &m_defaultFrictionAngle )->
