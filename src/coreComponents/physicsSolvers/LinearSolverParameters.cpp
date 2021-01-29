@@ -171,7 +171,7 @@ LinearSolverParametersInput::LinearSolverParametersInput( std::string const & na
     setDescription( "ILU(T) threshold factor" );
 }
 
-void LinearSolverParametersInput::PostProcessInput()
+void LinearSolverParametersInput::postProcessInput()
 {
   m_parameters.logLevel = getLogLevel();
 
