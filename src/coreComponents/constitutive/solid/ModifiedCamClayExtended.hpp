@@ -371,15 +371,25 @@ void ModifiedCamClayExtendedUpdates::smallStrainUpdate( localIndex const k,
 
     real64 Delta = (A11 + 3. * KK * B11) * (A22 + 3. * GG * B22) - (A12 + 3. * GG * B12) * (A21 + 3. * KK * B21);
 
-    //real64 C11 = ((A22 + 3. * GG * B22)*B11 - (A12 + 3. * GG * B12)*B21) / Delta;
-    //real64 C21 = ((A11 + 3. * KK * B11)*B21 - (A21 + 3. * KK * B21)*B11) / Delta;
+    real64 C11 = ((A22 + 3. * GG * B22)*B11 - (A12 + 3. * GG * B12)*B21) / Delta;
+    real64 C21 = ((A11 + 3. * KK * B11)*B21 - (A21 + 3. * KK * B21)*B11) / Delta;
     real64 C12 = ((A22 + 3. * GG * B22)*B12 - (A12 + 3. * GG * B12)*B22) / Delta;
-    //real64 C22 = ((A11 + 3. * KK * B11)*B22 - (A21 + 3. * KK * B21)*B12) / Delta;
+    real64 C22 = ((A11 + 3. * KK * B11)*B22 - (A21 + 3. * KK * B21)*B12) / Delta;
 
-    real64 d3 = -2.*GG*KK*C12;//must equal to c3
+    real64 d1 = c1;
+    real64 d2 = KK - 3.0 * KK * KK * C11 - d1/3.0;  
+    real64 d3 = -sqrt(3.0/2.0) * ( -2.*GG*KK*C12 );  // factor -sqrt(3/2) is because of the difference in normalized deviatoric
+    real64 d4 = -sqrt(3.0/2.0) * ( -6.*GG*KK*C21 );  // factor -sqrt(3/2) is because of the difference in normalized deviatoric
+    real64 d5 = 3.0/2.0 * ( 4.0/3.0 * GG - 2.0/3.0 * d1 - 4.0 * GG * GG * C22 ); // factor 3/2 
+                                                                                   //is because of the difference 
+                                                                                   //in normalized deviatoric
 
-    std::cout <<"c3 = " << c3 << std::endl;
-    std::cout <<"d3 = " << d3 << std::endl;
+    // The validation was perfect
+    std::cout << "d2/c2 = " << d2/c2 << std::endl;
+    std::cout << "d3/c3 = " << d3/c3 << std::endl;
+    std::cout << "d4/c4 = " << d4/c4 << std::endl;
+    std::cout << "d5/c5 = " << d5/c5 << std::endl;
+
 
   }
   // save new stress and return
